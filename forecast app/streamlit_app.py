@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+import pandas as pd
 
 def overview():
     st.header("Overview")
@@ -45,15 +46,17 @@ def forecast_analysis():
     st.header("Analysis and Forecast")
     country = st.selectbox(
      'Select Country',
-     ('Benin', 'Burkina Faso', 'Cape Verde', "Cote D'Ivoire",'Gambia','Ghana','Guinea','Guinea-Bissau','Liberia',
+     ('Benin', 'Burkina Faso', 'Cabo Verde', "Cote d'Ivoire",'Gambia','Ghana','Guinea','Guinea-Bissau','Liberia',
       'Mali','Mauritania','Niger','Nigeria','Senegal','Sierra Leone','Togo'))
-
+    df = pd.read_csv("wa_total_population.csv", index_col = 0, parse_dates = True)
+    st.line_chart(df[country])
     
 page_names_to_funcs = {
     "General Overview": overview,
     "West African Demographics": west_africa,
     "Analysis & Forecast": forecast_analysis
 }
+
 
 selected_page = st.sidebar.radio("Select a page", page_names_to_funcs.keys())
 page_names_to_funcs[selected_page]()
