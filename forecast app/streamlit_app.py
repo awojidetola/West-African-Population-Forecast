@@ -33,9 +33,6 @@ def west_africa():
     Mortality are the two most important factors influencing the total population in the country. 
     ''')
 
-    image = Image.open('Most populous.png')
-    st.image(image, caption='Most Populous African Countries')
-
     st.markdown('''
     Birth rate significantly influences the population of a country. Nigeria, the most populous country in West Africa, currently has the highest crude birth rate in the World. According to a report by
     __United Nations__, the African continent has the highest birth rate. Africa is currently the fastest [growing population](https://statisticstimes.com/demographics/africa-population.php) and the population size continues to increase.
@@ -44,13 +41,16 @@ def west_africa():
 
 def forecast_analysis():
     st.header("Analysis and Forecast")
+    df = pd.read_csv("wa_total_population.csv", index_col = 0, parse_dates = True)
+    st.write("Bar Chart showing Total Population of West African Countries in 2021")
+    st.bar_chart(df.iloc[-1])
     country = st.selectbox(
      'Select Country',
      ('Benin', 'Burkina Faso', 'Cabo Verde', "Cote d'Ivoire",'Gambia','Ghana','Guinea','Guinea-Bissau','Liberia',
       'Mali','Mauritania','Niger','Nigeria','Senegal','Sierra Leone','Togo'))
-    df = pd.read_csv("wa_total_population.csv", index_col = 0, parse_dates = True)
-    st.line_chart(df[country])
-    
+    st.line_chart(df[country]) 
+    year = st.selectbox('Enter Forecast Year',(2022,2023,2024,2025,2026))
+
 page_names_to_funcs = {
     "General Overview": overview,
     "West African Demographics": west_africa,
