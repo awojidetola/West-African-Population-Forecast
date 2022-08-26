@@ -18,7 +18,7 @@ def overview():
     st.image(image, caption='Credit: Wallpaper Flare')
 
 def west_africa():
-    st.header("West Africa Population : Analysis and Forecast")
+    st.header("West Africa Demograhpics")
     st.markdown('''
     West Africa is located at the western part of the continent. This region of the continent contains over 400 million people in 16 countries. Nigeria, is the most populous country in West Africa with over 200 million occupants.
     Check out the West African Countries [here](https://en.wikipedia.org/wiki/West_Africa)
@@ -41,10 +41,19 @@ def west_africa():
 
     ''')
 
+def forecast_analysis():
+    st.header("Analysis and Forecast")
+    country = st.selectbox(
+     'Select Country',
+     ('Benin', 'Burkina Faso', 'Cape Verde', "Cote D'Ivoire",'Gambia','Ghana','Guinea','Guinea-Bissau','Liberia',
+      'Mali','Mauritania','Niger','Nigeria','Senegal','Sierra Leone','Togo'))
+
+    
 page_names_to_funcs = {
     "General Overview": overview,
-    "West African Demographics": west_africa
+    "West African Demographics": west_africa,
+    "Analysis & Forecast": forecast_analysis
 }
 
-selected_page = st.sidebar.selectbox("Select a page", page_names_to_funcs.keys())
+selected_page = st.sidebar.radio("Select a page", page_names_to_funcs.keys())
 page_names_to_funcs[selected_page]()
