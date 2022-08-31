@@ -3,6 +3,13 @@ from PIL import Image
 import pandas as pd
 from pmdarima.arima import auto_arima
 
+hide_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        </style>
+        """
+st.markdown(hide_menu_style, unsafe_allow_html=True)
+
 def overview():
     st.header("Overview")
     st.markdown('''
