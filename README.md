@@ -5,9 +5,9 @@ The project analyzes the increase (or decrease) in total population, CBR and CDR
 The project makes use of the following tools: 
 
 + Streamlit
-+ Python Language: Numpy, Statsmodels (SARIMA), Pandas
++ Python Language: Numpy, Auto Arima, Pandas
 + Git for Version Control.
 
 The data used was collected from World Bank, cleaned and sorted and uploaded to Kaggle [here](https://www.kaggle.com/datasets/awojidemargaret/west-african-demograhpics).
 
-Click [here](https://awojidetola-west-african-population-foreca-streamlit-app-y9s6jf.streamlitapp.com/) to view the deployed application.
+Click [here](https://awojidetola-west-african-population-foreca-streamlit-app-3nb8ca.streamlitapp.com/) to view the deployed application.
