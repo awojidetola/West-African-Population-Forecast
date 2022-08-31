@@ -47,6 +47,7 @@ def forecast_analysis():
     df_pop = pd.read_csv("preprocessed files/total_pop.csv", index_col = 0, parse_dates = True)
     df_cbr = pd.read_csv("preprocessed files/crude_birth_rate.csv",index_col = 0, parse_dates = True)
     df_cdr = pd.read_csv("preprocessed files/crude_death_rate.csv",index_col = 0, parse_dates = True)
+    df_cdr = df_cdr.iloc[:-1, :]
     
     st.write("Bar Chart showing Total Population of West African Countries in 2021")
     st.bar_chart(df_pop.iloc[-1])
@@ -74,15 +75,15 @@ def forecast_analysis():
                         stepwise=True, random_state=20, n_fits=50)
             prediction = arima_model.predict(n_periods = 5)
             if year == 2022:
-                st.write("The population in {} will be approximately {} people".format(year, round(prediction[0])))
+                st.write("The population in {} will be approximately {:,} people".format(year, round(prediction[0])))
             elif year == 2023:
-                st.write("The population in {} will be approximately {} people".format(year, round(prediction[1])))
+                st.write("The population in {} will be approximately {:,} people".format(year, round(prediction[1])))
             elif year == 2024:
-                st.write("The population in {} will be approximately {} people".format(year, round(prediction[2])))
+                st.write("The population in {} will be approximately {:,} people".format(year, round(prediction[2])))
             elif year == 2025:
-                st.write("The population in {} will be approximately {} people".format(year, round(prediction[3])))
+                st.write("The population in {} will be approximately {:,} people".format(year, round(prediction[3])))
             else:
-                st.write("The population in {} will be approximately {} people".format(year, round(prediction[4])))
+                st.write("The population in {} will be approximately {:,} people".format(year, round(prediction[4])))
                 
         elif metric == 'Crude Birth Rate':
             arima_model = auto_arima(df_cbr[country], start_p=0, d=2, start_q=0, max_p=10, max_d=3, max_q=10, seasonal=False,
@@ -90,15 +91,15 @@ def forecast_analysis():
                         stepwise=True, random_state=20, n_fits=50)
             prediction = arima_model.predict(n_periods = 5)            
             if year == 2022:
-                st.write("The Crude Birth Rate for {} is {}/1000 people".format(year, round(prediction[0])))
+                st.write("The Crude Birth Rate for {} will be {}/1000 people".format(year, round(prediction[0])))
             elif year == 2023:
-                st.write("The Crude Birth Rate for {} is {}/1000 people".format(year, round(prediction[1])))
+                st.write("The Crude Birth Rate for {} will be {}/1000 people".format(year, round(prediction[1])))
             elif year == 2024:
-                st.write("The Crude Birth Rate for {} is {}/1000 people".format(year, round(prediction[2])))
+                st.write("The Crude Birth Rate for {} will be {}/1000 people".format(year, round(prediction[2])))
             elif year == 2025:
-                st.write("The Crude Birth Rate for {} is {}/1000 people".format(year, round(prediction[3])))
+                st.write("The Crude Birth Rate for {} will be {}/1000 people".format(year, round(prediction[3])))
             else:
-                st.write("The Crude Birth Rate for {} is {}/1000 people".format(year, round(prediction[4])))
+                st.write("The Crude Birth Rate for {} will be {}/1000 people".format(year, round(prediction[4])))
                 
         else:
             arima_model = auto_arima(df_cdr[country], start_p=0, d=2, start_q=0, max_p=10, max_d=3, max_q=10, seasonal=False,
@@ -106,15 +107,15 @@ def forecast_analysis():
                         stepwise=True, random_state=20, n_fits=50)
             prediction = arima_model.predict(n_periods = 5)            
             if year == 2022:
-                st.write("The Crude Death Rate for {} is {}/1000 people".format(year, round(prediction[0])))
+                st.write("The Crude Death Rate for {} will be {}/1000 people".format(year, round(prediction[0])))
             elif year == 2023:
-                st.write("The Crude Death Rate for {} is {}/1000 people".format(year, round(prediction[1])))
+                st.write("The Crude Death Rate for {} will be {}/1000 people".format(year, round(prediction[1])))
             elif year == 2024:
-                st.write("The Crude Death Rate for {} is {}/1000 people".format(year, round(prediction[2])))
+                st.write("The Crude Death Rate for {} will be {}/1000 people".format(year, round(prediction[2])))
             elif year == 2025:
-                st.write("The Crude Death Rate for {} is {}/1000 people".format(year, round(prediction[3])))
+                st.write("The Crude Death Rate for {} will be {}/1000 people".format(year, round(prediction[3])))
             else:
-                st.write("The Crude Death Rate for {} is {}/1000 people".format(year, round(prediction[4])))
+                st.write("The Crude Death Rate for {} will be {}/1000 people".format(year, round(prediction[4])))
                 
     else:
      st.write('Click to forecast!')
