@@ -83,14 +83,42 @@ def forecast_analysis():
                 st.write("The population in {} will be approximately {} people".format(year, round(prediction[3])))
             else:
                 st.write("The population in {} will be approximately {} people".format(year, round(prediction[4])))
+                
+        elif metric == 'Crude Birth Rate':
+            arima_model = auto_arima(df_cbr[country], start_p=0, d=2, start_q=0, max_p=10, max_d=3, max_q=10, seasonal=False,
+                        error_action='warn', trace=True, supress_warnings=True, 
+                        stepwise=True, random_state=20, n_fits=50)
+            prediction = arima_model.predict(n_periods = 5)            
+            if year == 2022:
+                st.write("The Crude Birth Rate for {} is {}/1000 people".format(year, round(prediction[0])))
+            elif year == 2023:
+                st.write("The Crude Birth Rate for {} is {}/1000 people".format(year, round(prediction[1])))
+            elif year == 2024:
+                st.write("The Crude Birth Rate for {} is {}/1000 people".format(year, round(prediction[2])))
+            elif year == 2025:
+                st.write("The Crude Birth Rate for {} is {}/1000 people".format(year, round(prediction[3])))
+            else:
+                st.write("The Crude Birth Rate for {} is {}/1000 people".format(year, round(prediction[4])))
+                
         else:
-         st.write("We'll keep you updated on forecast for {}".format(year))
+            arima_model = auto_arima(df_cdr[country], start_p=0, d=2, start_q=0, max_p=10, max_d=3, max_q=10, seasonal=False,
+                        error_action='warn', trace=True, supress_warnings=True, 
+                        stepwise=True, random_state=20, n_fits=50)
+            prediction = arima_model.predict(n_periods = 5)            
+            if year == 2022:
+                st.write("The Crude Death Rate for {} is {}/1000 people".format(year, round(prediction[0])))
+            elif year == 2023:
+                st.write("The Crude Death Rate for {} is {}/1000 people".format(year, round(prediction[1])))
+            elif year == 2024:
+                st.write("The Crude Death Rate for {} is {}/1000 people".format(year, round(prediction[2])))
+            elif year == 2025:
+                st.write("The Crude Death Rate for {} is {}/1000 people".format(year, round(prediction[3])))
+            else:
+                st.write("The Crude Death Rate for {} is {}/1000 people".format(year, round(prediction[4])))
+                
     else:
      st.write('Click to forecast!')
     
-    
-    #st.line_chart(df[country]) 
-
 page_names_to_funcs = {
     "General Overview": overview,
     "West African Demographics": west_africa,
