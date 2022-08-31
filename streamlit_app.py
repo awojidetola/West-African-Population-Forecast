@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image
 import pandas as pd
+from pmdarima.arima import auto_arima
 
 def overview():
     st.header("Overview")
@@ -15,7 +16,7 @@ def overview():
     
     ''')
     
-    image = Image.open('tanzania.jpg')
+    image = Image.open('images/tanzania.jpg')
     st.image(image, caption='Credit: Wallpaper Flare')
 
 def west_africa():
@@ -25,7 +26,7 @@ def west_africa():
     Check out the West African Countries [here](https://en.wikipedia.org/wiki/West_Africa)
 
     ''')
-    image = Image.open('westafricamap.gif')
+    image = Image.open('images/westafricamap.gif')
     st.image(image, caption='Image Credit: Appalachian State University')
 
     st.markdown('''
@@ -40,16 +41,55 @@ def west_africa():
     ''')
 
 def forecast_analysis():
+    
     st.header("Analysis and Forecast")
-    df = pd.read_csv("wa_total_population.csv", index_col = 0, parse_dates = True)
+    
+    df_pop = pd.read_csv("preprocessed files/total_pop.csv", index_col = 0, parse_dates = True)
+    df_cbr = pd.read_csv("preprocessed files/crude_birth_rate.csv",index_col = 0, parse_dates = True)
+    df_cdr = pd.read_csv("preprocessed files/crude_death_rate.csv",index_col = 0, parse_dates = True)
+    
     st.write("Bar Chart showing Total Population of West African Countries in 2021")
-    st.bar_chart(df.iloc[-1])
+    st.bar_chart(df_pop.iloc[-1])
+    
     country = st.selectbox(
      'Select Country',
      ('Benin', 'Burkina Faso', 'Cabo Verde', "Cote d'Ivoire",'Gambia','Ghana','Guinea','Guinea-Bissau','Liberia',
       'Mali','Mauritania','Niger','Nigeria','Senegal','Sierra Leone','Togo'))
-    st.line_chart(df[country]) 
     year = st.selectbox('Enter Forecast Year',(2022,2023,2024,2025,2026))
+    metric = st.selectbox("Select Demographic", ('Total Population', 'Crude Birth Rate','Crude Death Rate'))
+
+    st.write("Line Plot showing the {} for {}".format(metric, country))
+    
+    if metric == 'Total Population':
+        st.line_chart(df_pop[country])
+    elif metric == 'Crude Birth Rate':
+        st.line_chart(df_cbr[country])
+    else:
+        st.line_chart(df_cdr[country])
+
+    if st.button('Submit'):
+        if metric == "Total Population":
+            arima_model = auto_arima(df_pop[country], start_p=0, d=3, start_q=0, max_p=10, max_d=4, max_q=10, seasonal=False,
+                        error_action='warn', trace=True, supress_warnings=True, 
+                        stepwise=True, random_state=20, n_fits=50)
+            prediction = arima_model.predict(n_periods = 5)
+            if year == 2022:
+                st.write("The population in {} will be approximately {} people".format(year, round(prediction[0])))
+            elif year == 2023:
+                st.write("The population in {} will be approximately {} people".format(year, round(prediction[1])))
+            elif year == 2024:
+                st.write("The population in {} will be approximately {} people".format(year, round(prediction[2])))
+            elif year == 2025:
+                st.write("The population in {} will be approximately {} people".format(year, round(prediction[3])))
+            else:
+                st.write("The population in {} will be approximately {} people".format(year, round(prediction[4])))
+        else:
+         st.write("We'll keep you updated on forecast for {}".format(year))
+    else:
+     st.write('Click to forecast!')
+    
+    
+    #st.line_chart(df[country]) 
 
 page_names_to_funcs = {
     "General Overview": overview,
